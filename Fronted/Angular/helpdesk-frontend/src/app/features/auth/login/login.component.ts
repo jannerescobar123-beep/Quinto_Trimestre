@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { AuthService } from '../../../core/services/auth.service';
 import { LoginRequest } from '../../../models/auth.model';
@@ -18,7 +19,8 @@ export class LoginComponent {
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {
     this.loginForm = this.fb.group({
       email: ['', [
@@ -47,7 +49,10 @@ export class LoginComponent {
     this.authService.login(credentials).subscribe({
       next: response => {
         console.log('Login exitoso:', response);
+
         this.loading = false;
+
+        this.router.navigate(['/dashboard']);
       },
       error: error => {
         console.error('Error de login:', error);

@@ -1,0 +1,49 @@
+<h2>Listado de Tickets</h2>
+
+<p *ngIf="loading">
+  Cargando tickets...
+</p>
+
+<p *ngIf="error">
+  {{ error }}
+</p>
+
+<table *ngIf="tickets.length > 0">
+
+  <thead>
+
+    <tr>
+
+      <th>Título</th>
+
+      <th>Estado</th>
+
+      <th>Prioridad</th>
+
+      <th>Asignado</th>
+
+    </tr>
+
+  </thead>
+
+  <tbody>
+
+    <tr *ngFor="let ticket of tickets">
+
+      <td>{{ ticket.title }}</td>
+
+      <td>{{ ticket.status }}</td>
+
+      <td>{{ ticket.priority }}</td>
+
+      <td>{{ ticket.assignedTo }}</td>
+
+    </tr>
+
+  </tbody>
+
+</table>
+
+<p *ngIf="!loading && tickets.length === 0">
+  No existen tickets.
+</p>

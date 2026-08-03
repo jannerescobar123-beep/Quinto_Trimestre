@@ -1,0 +1,47 @@
+<div class="dashboard">
+
+  <aside class="sidebar">
+
+    <h2>HelpDesk</h2>
+
+    <nav>
+
+      <a routerLink="/dashboard/tickets" routerLinkActive="active">
+        🎫 Tickets
+      </a>
+
+      <a href="#">
+        👥 Usuarios
+      </a>
+
+      <a href="#">
+        👤 Perfil
+      </a>
+
+      <a href="#">
+        🚪 Cerrar sesión
+      </a>
+
+    </nav>
+
+  </aside>
+
+  <main class="content">
+
+    <header class="topbar">
+
+      <h2>Dashboard</h2>
+
+      <span>Bienvenido al sistema HelpDesk</span>
+
+    </header>
+
+    <section class="page">
+
+      <router-outlet></router-outlet>
+
+    </section>
+
+  </main>
+
+</div>
