@@ -80,7 +80,8 @@
               "buildTarget": "helpdesk-frontend:build:production"
             },
             "development": {
-              "buildTarget": "helpdesk-frontend:build:development"
+              "buildTarget": "helpdesk-frontend:build:development",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
