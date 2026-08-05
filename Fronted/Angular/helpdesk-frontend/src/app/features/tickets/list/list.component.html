@@ -1,49 +1,131 @@
-<h2>Listado de Tickets</h2>
+<div class="ticket-container">
 
-<p *ngIf="loading">
-  Cargando tickets...
-</p>
+  <div class="ticket-header">
 
-<p *ngIf="error">
-  {{ error }}
-</p>
+    <h2>Listado de Tickets</h2>
 
-<table *ngIf="tickets.length > 0">
+  </div>
 
-  <thead>
+  <div class="search-box">
 
-    <tr>
+    <input
+      type="text"
+      placeholder="Buscar por título..."
+      [(ngModel)]="searchText"
+    >
 
-      <th>Título</th>
+  </div>
+  <div class="filters">
 
-      <th>Estado</th>
+  <select [(ngModel)]="selectedStatus">
 
-      <th>Prioridad</th>
+    <option value="">Todos los estados</option>
+    <option value="open">Abierto</option>
+    <option value="in_progress">En progreso</option>
+    <option value="resolved">Resuelto</option>
+    <option value="closed">Cerrado</option>
 
-      <th>Asignado</th>
+  </select>
 
-    </tr>
+  <select [(ngModel)]="selectedPriority">
 
-  </thead>
+    <option value="">Todas las prioridades</option>
+    <option value="low">Baja</option>
+    <option value="medium">Media</option>
+    <option value="high">Alta</option>
+    <option value="urgent">Urgente</option>
 
-  <tbody>
+  </select>
 
-    <tr *ngFor="let ticket of tickets">
+</div>
 
-      <td>{{ ticket.title }}</td>
+  <p class="loading" *ngIf="loading">
+    Cargando tickets...
+  </p>
 
-      <td>{{ ticket.status }}</td>
+  <p class="error" *ngIf="error">
+    {{ error }}
+  </p>
 
-      <td>{{ ticket.priority }}</td>
+  <div class="table-container" *ngIf="filteredTickets().length > 0">
 
-      <td>{{ ticket.assignedTo }}</td>
+    <table>
 
-    </tr>
+      <thead>
 
-  </tbody>
+        <tr>
 
-</table>
+          <th>Título</th>
+          <th>Estado</th>
+          <th>Prioridad</th>
+          <th>Asignado</th>
+          <th>Acción</th>
 
-<p *ngIf="!loading && tickets.length === 0">
-  No existen tickets.
-</p>
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        <tr
+          *ngFor="let ticket of filteredTickets()"
+          class="ticket-row"
+          (click)="viewTicket(ticket.id)"
+        >
+
+          <td>{{ ticket.title }}</td>
+
+          <td>
+
+            <span
+              class="badge"
+              [ngClass]="ticket.status"
+            >
+              {{ getStatusLabel(ticket.status) }}
+            </span>
+
+          </td>
+
+          <td>
+
+            <span
+              class="badge"
+              [ngClass]="ticket.priority"
+            >
+              {{ getPriorityLabel(ticket.priority) }}
+            </span>
+
+          </td>
+
+          <td>
+
+            {{ ticket.assignedTo || 'Sin asignar' }}
+
+          </td>
+
+          <td>
+
+            <button
+              class="btn-view"
+              (click)="viewTicket(ticket.id); $event.stopPropagation()"
+            >
+              Ver
+            </button>
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+  <p *ngIf="!loading && filteredTickets().length === 0">
+
+    No existen tickets.
+
+  </p>
+
+</div>

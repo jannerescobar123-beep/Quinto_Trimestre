@@ -48,3 +48,9 @@ export interface TicketResponse {
   };
 
 }
+
+export interface TicketDetailResponse {
+
+  data: Ticket;
+
+}

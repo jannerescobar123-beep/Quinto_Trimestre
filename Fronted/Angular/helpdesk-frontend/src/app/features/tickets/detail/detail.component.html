@@ -1,0 +1,66 @@
+<div class="detail-container">
+
+  <button
+    class="btn-back"
+    routerLink="/dashboard/tickets"
+  >
+    ← Volver
+  </button>
+
+  <p *ngIf="loading">
+    Cargando ticket...
+  </p>
+
+  <p *ngIf="error">
+    {{ error }}
+  </p>
+
+  <div *ngIf="ticket" class="card">
+
+    <h2>{{ ticket.title }}</h2>
+
+    <div class="info">
+
+      <div>
+        <strong>Estado</strong>
+        <p>{{ ticket.status }}</p>
+      </div>
+
+      <div>
+        <strong>Prioridad</strong>
+        <p>{{ ticket.priority }}</p>
+      </div>
+
+      <div>
+        <strong>Creado por</strong>
+        <p>{{ ticket.createdBy }}</p>
+      </div>
+
+      <div>
+        <strong>Asignado a</strong>
+        <p>{{ ticket.assignedTo || 'Sin asignar' }}</p>
+      </div>
+
+      <div>
+        <strong>Fecha de creación</strong>
+        <p>{{ ticket.createdAt | date:'dd/MM/yyyy HH:mm' }}</p>
+      </div>
+
+      <div>
+        <strong>Última actualización</strong>
+        <p>{{ ticket.updatedAt | date:'dd/MM/yyyy HH:mm' }}</p>
+      </div>
+
+    </div>
+
+    <hr>
+
+    <h3>Descripción</h3>
+
+    <p class="description">
+      {{ ticket.description }}
+    </p>
+
+  </div>
+
+</div>
