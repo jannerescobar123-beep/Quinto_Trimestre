@@ -1,0 +1,126 @@
+
+<div class="users-container">
+
+  <div class="users-header">
+
+    <h2>
+      Usuarios
+    </h2>
+
+  </div>
+
+  <div class="filters">
+
+    <select
+      [(ngModel)]="selectedRole"
+      (change)="filterUsers()"
+    >
+
+      <option value="">
+        Todos los usuarios
+      </option>
+
+      <option value="admin">
+        Administradores
+      </option>
+
+      <option value="agent">
+        Agentes
+      </option>
+
+      <option value="client">
+        Clientes
+      </option>
+
+    </select>
+
+  </div>
+
+  <p
+    class="loading"
+    *ngIf="loading"
+  >
+    Cargando usuarios...
+  </p>
+
+  <p
+    class="error"
+    *ngIf="error"
+  >
+    {{ error }}
+  </p>
+
+  <div
+    class="table-container"
+    *ngIf="
+      !loading &&
+      users.length > 0
+    "
+  >
+
+    <table>
+
+      <thead>
+
+      <tr>
+
+        <th>
+          Nombre
+        </th>
+
+        <th>
+          ID
+        </th>
+
+        <th>
+          Rol
+        </th>
+
+      </tr>
+
+      </thead>
+
+      <tbody>
+
+      <tr
+        *ngFor="let user of users"
+      >
+
+        <td>
+          {{ user.name }}
+        </td>
+
+        <td>
+          {{ user.id }}
+        </td>
+
+        <td>
+
+            <span
+              class="badge"
+              [ngClass]="user.role"
+            >
+              {{ getRoleLabel(user.role) }}
+            </span>
+
+        </td>
+
+      </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+  <p
+    *ngIf="
+      !loading &&
+      !error &&
+      users.length === 0
+    "
+  >
+    No existen usuarios.
+  </p>
+
+</div>

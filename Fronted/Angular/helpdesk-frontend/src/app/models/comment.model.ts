@@ -35,3 +35,9 @@ export interface CreateCommentRequest {
   body: string;
 
 }
+
+export interface CreateCommentResponse {
+
+  data: Comment;
+
+}

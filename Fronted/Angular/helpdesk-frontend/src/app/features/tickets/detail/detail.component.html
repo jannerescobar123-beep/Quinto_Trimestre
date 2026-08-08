@@ -1,65 +1,333 @@
 <div class="detail-container">
 
-  <button
-    class="btn-back"
-    routerLink="/dashboard/tickets"
+  <div class="card-header">
+
+    <h2>
+      {{ ticket.title }}
+    </h2>
+
+    <button
+      class="btn-edit"
+      *ngIf="!editing"
+      (click)="startEditing()"
+    >
+      Editar ticket
+    </button>
+
+  </div>
+
+  <div
+    class="edit-form"
+    *ngIf="editing"
   >
-    ← Volver
-  </button>
 
-  <p *ngIf="loading">
-    Cargando ticket...
-  </p>
+    <h3>Editar ticket</h3>
 
-  <p *ngIf="error">
-    {{ error }}
-  </p>
+    <label>
+      Título
+    </label>
 
-  <div *ngIf="ticket" class="card">
+    <input
+      type="text"
+      [(ngModel)]="editTitle"
+    >
 
-    <h2>{{ ticket.title }}</h2>
+    <label>
+      Descripción
+    </label>
 
-    <div class="info">
+    <textarea
+      rows="5"
+      [(ngModel)]="editDescription"
+    ></textarea>
 
-      <div>
-        <strong>Estado</strong>
-        <p>{{ ticket.status }}</p>
-      </div>
+    <label>
+      Prioridad
+    </label>
 
-      <div>
-        <strong>Prioridad</strong>
-        <p>{{ ticket.priority }}</p>
-      </div>
+    <select
+      [(ngModel)]="editPriority"
+    >
+      <option value="low">
+        Baja
+      </option>
 
-      <div>
-        <strong>Creado por</strong>
-        <p>{{ ticket.createdBy }}</p>
-      </div>
+      <option value="medium">
+        Media
+      </option>
 
-      <div>
-        <strong>Asignado a</strong>
-        <p>{{ ticket.assignedTo || 'Sin asignar' }}</p>
-      </div>
+      <option value="high">
+        Alta
+      </option>
 
-      <div>
-        <strong>Fecha de creación</strong>
-        <p>{{ ticket.createdAt | date:'dd/MM/yyyy HH:mm' }}</p>
-      </div>
+      <option value="urgent">
+        Urgente
+      </option>
+    </select>
 
-      <div>
-        <strong>Última actualización</strong>
-        <p>{{ ticket.updatedAt | date:'dd/MM/yyyy HH:mm' }}</p>
-      </div>
+    <label>
+      Estado
+    </label>
+
+    <select
+      [(ngModel)]="editStatus"
+    >
+      <option value="open">
+        Abierto
+      </option>
+
+      <option value="in_progress">
+        En progreso
+      </option>
+
+      <option value="resolved">
+        Resuelto
+      </option>
+
+      <option value="closed">
+        Cerrado
+      </option>
+    </select>
+
+    <p
+      class="error"
+      *ngIf="editError"
+    >
+      {{ editError }}
+    </p>
+
+    <div class="edit-buttons">
+
+      <button
+        type="button"
+        (click)="saveTicket()"
+        [disabled]="saving"
+      >
+        {{ saving ? 'Guardando...' : 'Guardar cambios' }}
+      </button>
+
+      <button
+        type="button"
+        (click)="cancelEditing()"
+        [disabled]="saving"
+      >
+        Cancelar
+      </button>
 
     </div>
 
-    <hr>
+  </div>
 
-    <h3>Descripción</h3>
+  <div
+    class="card-body"
+    *ngIf="!editing"
+  >
 
-    <p class="description">
-      {{ ticket.description }}
+    <div class="row">
+
+      <strong>
+        Descripción
+      </strong>
+
+      <p>
+        {{ ticket.description }}
+      </p>
+
+    </div>
+
+    <div class="row">
+
+      <strong>
+        Estado
+      </strong>
+
+      <span class="badge status">
+        {{ ticket.status }}
+      </span>
+
+    </div>
+
+    <div class="row">
+
+      <strong>
+        Prioridad
+      </strong>
+
+      <span class="badge priority">
+        {{ ticket.priority }}
+      </span>
+
+    </div>
+
+    <div class="row">
+
+      <strong>
+        Asignado a
+      </strong>
+
+      <span>
+        {{ ticket.assignedTo || 'Sin asignar' }}
+      </span>
+
+    </div>
+
+    <div class="row">
+
+      <strong>
+        Creado por
+      </strong>
+
+      <span>
+        {{ ticket.createdBy }}
+      </span>
+
+    </div>
+
+    <div class="row">
+
+      <strong>
+        Fecha de creación
+      </strong>
+
+      <span>
+        {{ ticket.createdAt | date:'dd/MM/yyyy HH:mm' }}
+      </span>
+
+    </div>
+
+    <div class="row">
+
+      <strong>
+        Última actualización
+      </strong>
+
+      <span>
+        {{ ticket.updatedAt | date:'dd/MM/yyyy HH:mm' }}
+      </span>
+
+    </div>
+
+  </div>
+
+  <div class="assign-ticket">
+
+    <h3>
+      Asignar ticket
+    </h3>
+
+    <div class="assign-form">
+
+      <select
+        [(ngModel)]="selectedAgentId"
+      >
+
+        <option value="">
+          Selecciona un agente
+        </option>
+
+        <option
+          *ngFor="let agent of agents"
+          [value]="agent.id"
+        >
+          {{ agent.name }}
+        </option>
+
+      </select>
+
+      <button
+        type="button"
+        class="btn-assign"
+        (click)="assignTicket()"
+        [disabled]="assigning"
+      >
+        {{ assigning ? 'Asignando...' : 'Asignar ticket' }}
+      </button>
+
+    </div>
+
+    <p
+      class="assign-error"
+      *ngIf="assignError"
+    >
+      {{ assignError }}
     </p>
+
+    <p
+      class="assign-message"
+      *ngIf="assignMessage"
+    >
+      {{ assignMessage }}
+    </p>
+
+  </div>
+
+  <div class="comments">
+
+    <h3>
+      Comentarios
+    </h3>
+
+    <div
+      *ngFor="let comment of comments"
+      class="comment"
+    >
+
+      <div class="comment-header">
+
+        <strong>
+          {{ comment.author.name }}
+        </strong>
+
+        <small>
+          {{ comment.author.role }}
+          -
+          {{ comment.createdAt | date:'dd/MM/yyyy HH:mm' }}
+        </small>
+
+      </div>
+
+      <p>
+        {{ comment.body }}
+      </p>
+
+    </div>
+
+    <p *ngIf="comments.length === 0">
+      No existen comentarios.
+    </p>
+
+  </div>
+
+  <div class="add-comment">
+
+    <h3>
+      Agregar comentario
+    </h3>
+
+    <textarea
+      [(ngModel)]="comment"
+      rows="4"
+      placeholder="Escribe un comentario..."
+    ></textarea>
+
+    <p
+      class="error"
+      *ngIf="commentError"
+    >
+      {{ commentError }}
+    </p>
+
+    <button
+      class="btn-comment"
+      (click)="addComment()"
+      [disabled]="commentLoading"
+    >
+      {{
+        commentLoading
+          ? 'Agregando...'
+          : 'Agregar comentario'
+      }}
+    </button>
 
   </div>
 

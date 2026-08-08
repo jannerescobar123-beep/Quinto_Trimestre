@@ -18,16 +18,16 @@ export class ListComponent implements OnInit {
   tickets: Ticket[] = [];
 
   loading = false;
-
   error = '';
+
   searchText = '';
   selectedStatus = '';
+  selectedPriority = '';
 
-selectedPriority = '';
- constructor(
-  private ticketService: TicketService,
-  private router: Router
-) { }
+  constructor(
+    private ticketService: TicketService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadTickets();
@@ -36,14 +36,13 @@ selectedPriority = '';
   loadTickets(): void {
 
     this.loading = true;
+    this.error = '';
 
     this.ticketService.getTickets().subscribe({
 
       next: (response: TicketResponse) => {
 
         this.tickets = response.data;
-
-        console.log(response);
 
         this.loading = false;
 
@@ -53,7 +52,8 @@ selectedPriority = '';
 
         console.error(error);
 
-        this.error = 'No fue posible cargar los tickets.';
+        this.error =
+          'No fue posible cargar los tickets.';
 
         this.loading = false;
 
@@ -65,84 +65,88 @@ selectedPriority = '';
 
   viewTicket(id: string): void {
 
-  this.router.navigate([
-    '/dashboard',
-    'tickets',
-    'detail',
-    id
-  ]);
-
-}
-
-getStatusLabel(status: string): string {
-
-  switch (status) {
-
-    case 'open':
-      return 'Abierto';
-
-    case 'in_progress':
-      return 'En progreso';
-
-    case 'resolved':
-      return 'Resuelto';
-
-    case 'closed':
-      return 'Cerrado';
-
-    default:
-      return status;
+    this.router.navigate([
+      '/dashboard',
+      'tickets',
+      'detail',
+      id
+    ]);
 
   }
 
-}
+  getStatusLabel(status: string): string {
 
-getPriorityLabel(priority: string): string {
+    switch (status) {
 
-  switch (priority) {
+      case 'open':
+        return 'Abierto';
 
-    case 'low':
-      return 'Baja';
+      case 'in_progress':
+        return 'En progreso';
 
-    case 'medium':
-      return 'Media';
+      case 'resolved':
+        return 'Resuelto';
 
-    case 'high':
-      return 'Alta';
+      case 'closed':
+        return 'Cerrado';
 
-    case 'urgent':
-      return 'Urgente';
+      default:
+        return status;
 
-    default:
-      return priority;
+    }
 
   }
 
-}
+  getPriorityLabel(priority: string): string {
 
-filteredTickets(): Ticket[] {
+    switch (priority) {
 
-  return this.tickets.filter(ticket => {
+      case 'low':
+        return 'Baja';
 
-    const matchesSearch =
-      ticket.title
-        .toLowerCase()
-        .includes(this.searchText.toLowerCase());
+      case 'medium':
+        return 'Media';
 
-    const matchesStatus =
-      !this.selectedStatus ||
-      ticket.status === this.selectedStatus;
+      case 'high':
+        return 'Alta';
 
-    const matchesPriority =
-      !this.selectedPriority ||
-      ticket.priority === this.selectedPriority;
+      case 'urgent':
+        return 'Urgente';
 
-    return matchesSearch &&
-           matchesStatus &&
-           matchesPriority;
+      default:
+        return priority;
 
-  });
+    }
 
-}
+  }
+
+  filteredTickets(): Ticket[] {
+
+    return this.tickets.filter(ticket => {
+
+      const matchesSearch =
+        ticket.title
+          .toLowerCase()
+          .includes(
+            this.searchText.toLowerCase()
+          );
+
+      const matchesStatus =
+        !this.selectedStatus ||
+        ticket.status === this.selectedStatus;
+
+      const matchesPriority =
+        !this.selectedPriority ||
+        ticket.priority === this.selectedPriority;
+
+      return (
+        matchesSearch &&
+        matchesStatus &&
+        matchesPriority
+      );
+
+    });
+
+  }
 
 }

@@ -1,0 +1,95 @@
+.users-container {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, .08);
+}
+
+.users-header {
+  margin-bottom: 25px;
+}
+
+.users-header h2 {
+  margin: 0;
+  color: #1f2937;
+}
+
+.filters {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.filters select {
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  min-width: 220px;
+  font-size: 14px;
+  background: white;
+  cursor: pointer;
+}
+
+.filters select:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+.loading,
+.error {
+  padding: 15px 0;
+}
+
+.error {
+  color: #dc2626;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: #2563eb;
+  color: white;
+}
+
+th {
+  padding: 15px;
+  text-align: left;
+  font-weight: 600;
+}
+
+td {
+  padding: 14px;
+  border-bottom: 1px solid #ececec;
+}
+
+tbody tr:hover {
+  background: #f8faff;
+}
+
+.badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: bold;
+  color: white;
+}
+
+.admin {
+  background: #7c3aed;
+}
+
+.agent {
+  background: #2563eb;
+}
+
+.client {
+  background: #16a34a;
+}

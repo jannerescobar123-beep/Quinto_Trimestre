@@ -20,6 +20,8 @@ export class AuthGuard implements CanActivate {
 
     const token = this.authService.getAccessToken();
 
+    console.log('GUARD TOKEN:', token);
+
     if (token) {
       return true;
     }
@@ -27,7 +29,5 @@ export class AuthGuard implements CanActivate {
     this.router.navigate(['/login']);
 
     return false;
-
   }
-
 }

@@ -3,24 +3,28 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
 
-import { AuthGuard } from '../../core/guards/auth.guard';
-
 const routes: Routes = [
   {
     path: '',
     component: DashboardComponent,
-    canActivate: [AuthGuard],
     children: [
-      {
-        path: '',
-        redirectTo: 'tickets',
-        pathMatch: 'full'
-      },
       {
         path: 'tickets',
         loadChildren: () =>
           import('../tickets/tickets.module')
             .then(m => m.TicketsModule)
+      },
+      {
+        path: 'users',
+        loadChildren: () =>
+          import('../users/users.module')
+            .then(m => m.UsersModule)
+      },
+      {
+        path: 'profile',
+        loadChildren: () =>
+          import('../profile/profile.module')
+            .then(m => m.ProfileModule)
       }
     ]
   }
@@ -30,4 +34,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class DashboardRoutingModule { }
+export class DashboardRoutingModule {}

@@ -2,7 +2,9 @@
 
   <div class="ticket-header">
 
-    <h2>Listado de Tickets</h2>
+    <h2>
+      Listado de Tickets
+    </h2>
 
   </div>
 
@@ -15,67 +17,125 @@
     >
 
   </div>
+
   <div class="filters">
 
-  <select [(ngModel)]="selectedStatus">
+    <select
+      [(ngModel)]="selectedStatus"
+    >
 
-    <option value="">Todos los estados</option>
-    <option value="open">Abierto</option>
-    <option value="in_progress">En progreso</option>
-    <option value="resolved">Resuelto</option>
-    <option value="closed">Cerrado</option>
+      <option value="">
+        Todos los estados
+      </option>
 
-  </select>
+      <option value="open">
+        Abierto
+      </option>
 
-  <select [(ngModel)]="selectedPriority">
+      <option value="in_progress">
+        En progreso
+      </option>
 
-    <option value="">Todas las prioridades</option>
-    <option value="low">Baja</option>
-    <option value="medium">Media</option>
-    <option value="high">Alta</option>
-    <option value="urgent">Urgente</option>
+      <option value="resolved">
+        Resuelto
+      </option>
 
-  </select>
+      <option value="closed">
+        Cerrado
+      </option>
 
-</div>
+    </select>
 
-  <p class="loading" *ngIf="loading">
+    <select
+      [(ngModel)]="selectedPriority"
+    >
+
+      <option value="">
+        Todas las prioridades
+      </option>
+
+      <option value="low">
+        Baja
+      </option>
+
+      <option value="medium">
+        Media
+      </option>
+
+      <option value="high">
+        Alta
+      </option>
+
+      <option value="urgent">
+        Urgente
+      </option>
+
+    </select>
+
+  </div>
+
+  <p
+    class="loading"
+    *ngIf="loading"
+  >
     Cargando tickets...
   </p>
 
-  <p class="error" *ngIf="error">
+  <p
+    class="error"
+    *ngIf="error"
+  >
     {{ error }}
   </p>
 
-  <div class="table-container" *ngIf="filteredTickets().length > 0">
+  <div
+    class="table-container"
+    *ngIf="!loading && filteredTickets().length > 0"
+  >
 
     <table>
 
       <thead>
 
-        <tr>
+      <tr>
 
-          <th>Título</th>
-          <th>Estado</th>
-          <th>Prioridad</th>
-          <th>Asignado</th>
-          <th>Acción</th>
+        <th>
+          Título
+        </th>
 
-        </tr>
+        <th>
+          Estado
+        </th>
+
+        <th>
+          Prioridad
+        </th>
+
+        <th>
+          Asignado
+        </th>
+
+        <th>
+          Acción
+        </th>
+
+      </tr>
 
       </thead>
 
       <tbody>
 
-        <tr
-          *ngFor="let ticket of filteredTickets()"
-          class="ticket-row"
-          (click)="viewTicket(ticket.id)"
-        >
+      <tr
+        *ngFor="let ticket of filteredTickets()"
+        class="ticket-row"
+        (click)="viewTicket(ticket.id)"
+      >
 
-          <td>{{ ticket.title }}</td>
+        <td>
+          {{ ticket.title }}
+        </td>
 
-          <td>
+        <td>
 
             <span
               class="badge"
@@ -84,9 +144,9 @@
               {{ getStatusLabel(ticket.status) }}
             </span>
 
-          </td>
+        </td>
 
-          <td>
+        <td>
 
             <span
               class="badge"
@@ -95,26 +155,26 @@
               {{ getPriorityLabel(ticket.priority) }}
             </span>
 
-          </td>
+        </td>
 
-          <td>
+        <td>
 
-            {{ ticket.assignedTo || 'Sin asignar' }}
+          {{ ticket.assignedTo || 'Sin asignar' }}
 
-          </td>
+        </td>
 
-          <td>
+        <td>
 
-            <button
-              class="btn-view"
-              (click)="viewTicket(ticket.id); $event.stopPropagation()"
-            >
-              Ver
-            </button>
+          <button
+            class="btn-view"
+            (click)="viewTicket(ticket.id); $event.stopPropagation()"
+          >
+            Ver
+          </button>
 
-          </td>
+        </td>
 
-        </tr>
+      </tr>
 
       </tbody>
 
@@ -122,10 +182,14 @@
 
   </div>
 
-  <p *ngIf="!loading && filteredTickets().length === 0">
-
+  <p
+    *ngIf="
+      !loading &&
+      !error &&
+      filteredTickets().length === 0
+    "
+  >
     No existen tickets.
-
   </p>
 
 </div>

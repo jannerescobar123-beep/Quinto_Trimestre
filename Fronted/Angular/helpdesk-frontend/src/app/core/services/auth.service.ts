@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
 import {
@@ -29,6 +30,35 @@ export class AuthService {
           this.saveSession(response);
         })
       );
+  }
+  refreshToken(): Observable<LoginResponse> {
+
+    return this.http.post<LoginResponse>(
+      `${this.apiUrl}/auth/refresh`,
+      {
+        refreshToken: this.getRefreshToken()
+      }
+    ).pipe(
+      tap(response => {
+
+        localStorage.setItem(
+          'accessToken',
+          response.accessToken
+        );
+
+        localStorage.setItem(
+          'refreshToken',
+          response.refreshToken
+        );
+
+        localStorage.setItem(
+          'user',
+          JSON.stringify(response.user)
+        );
+
+      })
+    );
+
   }
 
   private saveSession(response: LoginResponse): void {
