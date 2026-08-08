@@ -84,4 +84,10 @@ export class AuthService {
 
     return JSON.parse(user) as User;
   }
+
+  logout(): void {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('user');
+  }
 }

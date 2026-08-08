@@ -1,1 +1,36 @@
-<p>profile works!</p>
+<div class="profile-container">
+
+  <div class="profile-header">
+    <h2>Mi perfil</h2>
+    <p>Información de tu cuenta</p>
+  </div>
+
+  <div class="profile-card" *ngIf="user">
+
+    <div class="profile-avatar">
+      {{ user.name.charAt(0).toUpperCase() }}
+    </div>
+
+    <div class="profile-info">
+
+      <div class="profile-row">
+        <strong>Nombre</strong>
+        <span>{{ user.name }}</span>
+      </div>
+
+      <div class="profile-row">
+        <strong>Rol</strong>
+        <span class="role-badge">
+          {{ user.role }}
+        </span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="profile-card empty" *ngIf="!user">
+    <p>No fue posible cargar la información del perfil.</p>
+  </div>
+
+</div>
